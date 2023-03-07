@@ -1,0 +1,2 @@
+> Git Repository
+> Klassendiagramme für einzelne Architekturelemente (inkl. Methoden und Kurzbeschreibungen)
