@@ -1,7 +1,11 @@
 import dataseed from "src/domain/dataseed";
 import { Buchung } from "src/domain/models";
 
-export default class {
+export default class Buchungsmanager {
+  constructor(data) {
+    this.datastoremanager = data.datastoremanager;
+  }
+
   erzeugeBuchungenFuerBuchungsreihe(buchungsreihe) {
     let data = {
       idSzenario: buchungsreihe.idSzenario,
@@ -22,7 +26,7 @@ export default class {
     let datum = new Date(buchungsreihe.datumAnfang);
     while (datum < datumEnde) {
       data.datum = new Date(datum);
-      arrBuchungen.push(new Buchung(data));
+      this.datastoremanager.create(new Buchung(data), this.datastoremanager.keys.buchungen);
       switch (buchungsreihe.buchungsintervall) {
         case 'einzel':
           return arrBuchungen;
@@ -43,12 +47,10 @@ export default class {
     return arrBuchungen;
   };
 
-  aktualisiereBuchungen(datastore, datastoremanager) {
-    let arrBuchungen = [];
-    for (let br of datastore.buchungsreihen) {
-      let arrBuchungenFuerBuchungsreihe = this.erzeugeBuchungenFuerBuchungsreihe(br);
-      arrBuchungen.push(...arrBuchungenFuerBuchungsreihe);
-    }
-    datastoremanager.replaceAll(arrBuchungen, 'buchungen', datastore);
-  }
+  loescheBuchungenFuerBuchungsreihe(buchungsreihe) {
+    this.datastoremanager.datastore.buchungen = this.datastoremanager.datastore.buchungen.filter(bu => {
+      bu.buchungsreihe.id != buchungsreihe.id
+    });
+  };
+
 }

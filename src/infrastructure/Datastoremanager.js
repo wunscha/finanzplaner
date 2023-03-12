@@ -1,45 +1,72 @@
+import { reactive } from "vue";
+
 export default class Datastoremanger {
-  constructor(datastore, opt = {}){
-    // if (!datastore) {throw new Error('Datencontainer muss angegeben werden!');}
-    // this.datastore = datastore;
+  constructor(datastore){
+    if (!datastore) {throw new Error('Datastore muss angegeben werden!');}
+    this.datastore = datastore;
   }
 
-  create(objectNew, nameModel, datastore) {
-    if (this.read(objectNew.id, nameModel, datastore)) {
-      console.warn(`Objekt ${nameModel} mit Id ${objectNew.id} ist bereits vorhanden und wird überschrieben`);
-      this.replace(objectNew, nameModel, datastore);
+  keys = {
+    szenarien: 'szenarien',
+    kontoschemata: 'kontoschemata',
+    konten: 'konten',
+    buchungsreihen: 'buchungsreihen',
+    buchungen: 'buchungen'
+  }
+
+  create(objectNew, keyModel) {
+    if (this.read(objectNew.id, keyModel)) {
+      console.warn(`Objekt ${keyModel} mit Id ${objectNew.id} ist bereits vorhanden und wird überschrieben`);
+      this.replace(objectNew, keyModel);
     }
     else {
-      // this.datastore[nameModel].push(objectNew);
-      datastore[nameModel].push(objectNew);
+      this.datastore[keyModel].push(objectNew);
     }
     return objectNew;
   }
 
-  read(id, nameModel, datastore) {
-    // let object = this.datastore[nameModel].find(obj => obj.id == id);
-    let object = datastore[nameModel].find(obj => obj.id == id);
+  read(id, keyModel) {
+    let object = this.datastore[keyModel].find(obj => obj.id == id);
     return object;
   }
 
-  update(objectUpdate, nameModel, datastore) {
-    let object = this.read(objectUpdate.id, nameModel, datastore);
+  update(objectUpdate, keyModel) {
+    let object = this.read(objectUpdate.id, keyModel);
     Object.assign(object, objectUpdate);
     return object;
   }
 
-  delete(id, nameModel, datastore) {
-    let object = this.read(id, nameModel, datastore);
-    datastore[nameModel] = datastore[nameModel].filter(obj => obj.id != id);
+  delete(id, keyModel) {
+    let object = this.read(id, keyModel);
+    this.datastore[keyModel] = this.datastore[keyModel].filter(obj => obj.id != id);
     return object;
   }
 
-  replace(object, nameModel, datastore) {
-    this.delete(object.id, nameModel, datastore);
-    this.create(object, nameModel, datastore);
+  replace(object, keyModel) {
+    this.delete(object.id, keyModel);
+    this.create(object, keyModel);
   }
 
-  replaceAll(arrObjects, nameModel, datastore) {
-    datastore[nameModel] = arrObjects;
+  ladeDatastoreAusDatei(file) {
+    let filereader = new FileReader();
+    filereader.onload = evt => {
+      let fileAlsString = evt.target.result;
+      let fileAlsJSON = JSON.parse(fileAlsString);
+      this.datastore = reactive(fileAlsJSON);
+      console.log("datastore aus Datei geladen");
+    };
+    filereader.readAsText(file);
   }
+
+  downloadeDatastoreAlsDatei() {
+    // siehe: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
+    let datastoreAlsString = JSON.stringify(datastore);
+    let aTmp = document.createElement('a');
+    aTmp.setAttribute('href', 'data:text/plain;charset=utf8,' + encodeURIComponent(datastoreAlsString));
+    aTmp.setAttribute('download', 'datastore.json');
+    document.body.appendChild(aTmp);
+    aTmp.click();
+    document.body.removeChild(aTmp);
+  }
+
 }
