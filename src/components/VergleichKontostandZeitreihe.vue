@@ -63,7 +63,7 @@
 import { defineComponent, ref } from 'vue'
 import DiagrammKontostandZeitreihe from 'src/components/DiagrammKontostandZeitreihe.vue'
 import services from 'src/infrastructure/services'
-import datastore from 'src/infrastructure/datastore'
+import datastore from 'src/_Data/datastore'
 import dataseed from 'src/domain/dataseed'
 
 export default defineComponent({

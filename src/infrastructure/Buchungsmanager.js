@@ -1,5 +1,5 @@
-import dataseed from "src/domain/dataseed";
-import { Buchung } from "src/domain/models";
+import dataseed from "src/_Domain/dataseed";
+import { Buchung } from "src/_Domain/models";
 
 export default class Buchungsmanager {
   constructor(data) {

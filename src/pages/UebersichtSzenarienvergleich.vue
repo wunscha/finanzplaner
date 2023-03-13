@@ -18,7 +18,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import VergleichKontostandZeitreihe from 'src/components/VergleichKontostandZeitreihe.vue';
-import datastore from 'src/infrastructure/datastore';
+import datastore from 'src/_Data/datastore';
 
 export default defineComponent({
   name: 'UebersichtSzenarienvergleich',

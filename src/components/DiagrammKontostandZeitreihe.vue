@@ -25,7 +25,7 @@
 <script>
 import { defineComponent } from 'vue'
 import services from '../infrastructure/services'
-import datastore from '../infrastructure/datastore';
+import datastore from '../_Data/datastore';
 
 export default defineComponent({
   name: 'DiagrammKontostaendeZeitreihe',

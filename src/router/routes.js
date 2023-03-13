@@ -5,9 +5,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'szenarien', component: () => import('pages/UebersichtSzenarien.vue') },
-      { path: 'buchungsreihen', component: () => import('pages/UebersichtBuchungsreihen.vue') },
-      { path: 'szenarienvergleich', component: () => import('src/pages/UebersichtSzenarienvergleich.vue') },
+      { path: 'szenarien', component: () => import('src/pages/Szenarien.vue') },
     ]
   },
 

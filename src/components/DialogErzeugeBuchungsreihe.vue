@@ -72,7 +72,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import datastore from 'src/infrastructure/datastore'
+import datastore from 'src/_Data/datastore'
 import dialoge from '../infrastructure/dialoge'
 import services from '../infrastructure/services'
 import { Buchungsreihe } from '../domain/models'

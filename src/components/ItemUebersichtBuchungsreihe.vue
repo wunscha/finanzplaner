@@ -21,7 +21,7 @@
 <script>
   import { defineComponent } from 'vue'
   import services from 'src/infrastructure/services';
-  import datastore from 'src/infrastructure/datastore';
+  import datastore from 'src/_Data/datastore';
 
   export default defineComponent({
     name: 'ItemUebersichtBuchungsreihe',

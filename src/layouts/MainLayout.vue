@@ -46,44 +46,34 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+  import { defineComponent, ref } from 'vue'
+  import EssentialLink from 'components/EssentialLink.vue'
 
-const linksList = [
-  {
-    title: 'Szenarien',
-    caption: 'Verwaltung von Szenarien',
-    link: '/szenarien'
-  },
-  {
-    title: 'Buchungsreihen',
-    caption: 'Verwaltung von Buchungsreihen',
-    link: '/buchungsreihen'
-  },
-  {
-    title: 'Szenarienvergleich',
-    caption: 'Vergleich von Szenarien',
-    link: '/szenarienvergleich'
-  },
-]
+  const linksList = [
+    {
+      title: 'Szenarien',
+      caption: 'Verwaltung von Szenarien',
+      link: 'szenarien'
+    },
+  ]
 
-export default defineComponent({
-  name: 'MainLayout',
+  export default defineComponent({
+    name: 'MainLayout',
 
-  components: {
-    EssentialLink
-  },
+    components: {
+      EssentialLink
+    },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+    setup () {
+      const leftDrawerOpen = ref(false)
 
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
+      return {
+        essentialLinks: linksList,
+        leftDrawerOpen,
+        toggleLeftDrawer () {
+          leftDrawerOpen.value = !leftDrawerOpen.value
+        }
       }
     }
-  }
-})
+  });
 </script>

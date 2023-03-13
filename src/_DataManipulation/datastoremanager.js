@@ -1,6 +1,7 @@
 import { reactive } from "vue";
+import datastore from "src/_Data/datastore";
 
-export default class Datastoremanger {
+class Datastoremanger {
   constructor(datastore){
     if (!datastore) {throw new Error('Datastore muss angegeben werden!');}
     this.datastore = datastore;
@@ -70,3 +71,5 @@ export default class Datastoremanger {
   }
 
 }
+
+export default new Datastoremanger(datastore);

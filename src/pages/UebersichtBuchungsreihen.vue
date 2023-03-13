@@ -23,7 +23,7 @@
 import { defineComponent, ref } from 'vue'
 import SpalteUebersichtBuchungsreihen from 'src/components/SpalteUebersichtBuchungsreihen.vue'
 import DialogErzeugeBuchungsreihe from 'src/components/DialogErzeugeBuchungsreihe.vue'
-import datastore from '../infrastructure/datastore'
+import datastore from '../_Data/datastore'
 import dialoge from '../infrastructure/dialoge'
 import dataseed from 'src/domain/dataseed'
 

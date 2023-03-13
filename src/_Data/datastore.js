@@ -1,10 +1,11 @@
 import { reactive } from "vue"
 
+const datumMin = new Date();
+const datumMax = (new Date(datumMin)).setFullYear(2040);
+
 let datastore = {
-    objekteAktuell: {
-      szenario: undefined,
-      buchungsintervall: undefined,
-    },
+    datumMin: datumMin,
+    datumMax: datumMax,
     szenarien: [],
     buchungsreihen: [],
     buchungen: [],

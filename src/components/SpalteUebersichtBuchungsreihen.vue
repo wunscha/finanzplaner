@@ -18,7 +18,7 @@
 <script>
 import { defineComponent } from 'vue'
 import ItemUebersichtBuchungsreihe from 'src/components/ItemUebersichtBuchungsreihe.vue'
-import datastore from '../infrastructure/datastore'
+import datastore from '../_Data/datastore'
 import dialoge from '../infrastructure/dialoge'
 
 export default defineComponent({
