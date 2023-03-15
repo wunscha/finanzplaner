@@ -53,7 +53,12 @@
     {
       title: 'Szenarien',
       caption: 'Verwaltung von Szenarien',
-      link: 'szenarien'
+      link: 'szenarien',
+    },
+    {
+      title: 'Kontoschemata',
+      caption: 'Verwaltung von Kontoschemata',
+      link: 'kontoschemata',
     },
   ]
 

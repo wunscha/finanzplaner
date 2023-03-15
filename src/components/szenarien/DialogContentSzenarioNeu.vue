@@ -26,6 +26,8 @@
         formdata: {
           bezeichnung: ref(''),
           beschreibung: ref(''),
+          kontostandInitial: ref(0),
+          istExtern: ref(false),
         }
       }
     },
@@ -43,6 +45,7 @@
           });
           datastoremanager.create(kontoNeu, datastoremanager.keys.konten);
         };
+        this.zuruecksetzeFormular();
         this.$emit('submit');
       },
     },

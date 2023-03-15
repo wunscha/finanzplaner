@@ -32,17 +32,12 @@
       }
     },
     methods: {
-      zuruecksetzeFormular() {
-        this.formdata.bezeichnung = '';
-        this.formdata.beschreibung = '';
-      },
       onSubmit() {
         let szenarioUpdate = {
           id: this.szenarioAktuell.id,
         };
         Object.assign(szenarioUpdate, this.formdata);
         datastoremanager.update(szenarioUpdate, datastoremanager.keys.szenarien);
-        debugger
         this.$emit('submit');
       },
     },
