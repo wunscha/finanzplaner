@@ -1,0 +1,5 @@
+> Uebersicht Buchungsreihen implementieren (szenario Aktuell als prop durchreichen)
+> Model Konto und Buchung entfernen --> Kontoschema in Konto umbenennen
+> Kontostandermittlung mit Berücksichtigung neuer Model-Struktur (Kontoschema -> Konto) implementieren
+> Separate Pages für Szenariovergleich Zeitraum und Szenariovergleich Zeitpunkt
+> "objekteAktuell" nicht über datastore regeln, sd. über state auf Übersichtspages und in props durchreichen

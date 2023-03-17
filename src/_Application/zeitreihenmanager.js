@@ -30,4 +30,5 @@ class Zeitreihenmanager {
   }
 }
 
+// TODO: Initialisierung in "services" auslagern?
 export default new Zeitreihenmanager(datastore);

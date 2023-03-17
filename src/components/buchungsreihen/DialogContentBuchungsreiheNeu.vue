@@ -5,11 +5,11 @@
         <q-input filled v-model="formdata.bezeichnung"  label="Bezeichnung" :rules="[val => val && val.length > 0] || 'Bitte Bezeichnung angeben'"/>
         <q-input filled v-model="formdata.beschreibung"  label="Beschreibung" type="textarea" />
         <q-input filled v-model="formdata.betrag" label="Betrag" type="number" />
-        <q-select filled v-model="formdata.habenkonto" label="Quellkonto" :options="kontenSzenarioAktuell" option-label="kontoschema.bezeichnung" option-value="id" emit-value map-options />
-        <q-select filled v-model="formdata.sollkonto" label="Zielkonto" :options="kontenSzenarioAktuell" option-label="kontoschema.bezeichnung" option-value="id" emit-value map-options />
-        <q-input filled v-model="formdata.datumAnfang" label="Datum Anfang" type="date" @update="beiUpdateDatumAnfang"/>
+        <q-select filled v-model="formdata.habenkonto" label="Quellkonto" :options="datastore.kontoschemata" option-label="kontoschema.bezeichnung" />
+        <q-select filled v-model="formdata.sollkonto" label="Zielkonto" :options="datastore.kontoschemata" option-label="kontoschema.bezeichnung" />
+        <q-input filled v-model="formdata.datumAnfang" label="Datum Anfang" type="date" />
         <q-input filled v-model="formdata.datumEnde" label="Datum Ende" type="date" />
-        <div>{{ buchungsintervall }}</div>
+        <div>{{ buchungsintervallAktuell }}</div>
         <q-btn label="OK" type="submit" color="primary"/>
       </div>
     </q-form>
@@ -23,11 +23,14 @@
   import datastore from 'src/_Data/datastore';
   import { Buchungsreihe } from 'src/_Domain/models';
 
+  // TODO: const mit Initialwerten für formdata
+
   export default defineComponent({
     name: 'DialogContentBuchungsreiheNeu',
-    components: {
-      DialogContentBuchungsreiheNeu,
-    },
+    props: [
+      'buchungsintervallAktuell',
+      'szenarioAktuell',
+    ],
     data(){
       return {
         formdata: {
@@ -43,39 +46,24 @@
     },
     methods: {
       zuruecksetzeFormular() {
-        this.formdata.bezeichnung = '';
-        this.formdata.beschreibung = '';
-        this.fo
-        this.formdata.kontostandInitial = 0;
-        this.formdata.istExtern = false;
+        this.formdata.bezeichnung = ref('');
+        this.formdata.beschreibung = ref('');
+        this.formdata.betrag = ref(0);
+        this.formdata.sollkonto = ref(null);
+        this.formdata.habenkonto = ref(null);
+        this.formdata.datumAnfang = ref(datastore.datumMin);
+        this.formdata.datumEnde = ref(datastore.datumMax);
       },
       onSubmit() {
-        let dataKontoschemaNeu = {
-          bezeichnung: this.formdata.bezeichnung,
-          beschreibung: this.formdata.beschreibung,
-          sollInitial: this.formdata.kontostandInitial >= 0 ? this.formdata.kontostandInitial : 0,
-          habenInitial: this.formdata.kontostandInitial < 0 ? Math.abs(this.formdata.kontostandInitial) : 0,
-          istExtern: this.formdata.istExtern,
-        };
-        let kontoschemaNeu = datastoremanager.create(new Kontoschema(dataKontoschemaNeu), datastoremanager.keys.szenarien);
-        for (let szenario of datastoremanager.datastore[datastoremanager.keys.szenarien]) {
-          let kontoNeu = new Konto({
-            kontoschema: kontoschemaNeu,
-            szenario: szenario,
-          });
-          datastoremanager.create(kontoNeu, datastoremanager.keys.konten);
-        };
+        let buchungsreiheNeu = new Buchungsreihe({
+          szenario: this.szenarioAktuell,
+          buchungsintervall: this.buchungsintervallAktuell,
+        });
+        Object.assign(buchungsreiheNeu, this.formdata);
+        datastoremanager.create(buchungsreiheNeu, datastoremanager.keys.buchungsreihen);
         this.zuruecksetzeFormular();
         this.$emit('submit');
       },
-      computed: {
-        kontenSzenarioAktuell() {
-          if (!this.szenarioAktuell) {
-            return [];
-          }
-          return datastore.konten.filter(ko => ko.szenario.id == this.szenarioAktuell.id)
-        },
-      }
     },
   });
 </script>
