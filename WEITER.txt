@@ -1,4 +1,6 @@
-> Analyse Zeitreihe
-> Bericht
+> Fehlersuche:
+	> Im Bericht ist Dezember-Saldo immer 0
+	> Bie einzel-Buchungsreihen kommt es zu Endlosschleife in Analysen (zumindest bei Zeitreihen-Analyse)
+	> Alle Konstellationen mit Buchungsszenarien etc. durchtesten
 > datastore Laden / Speichern
 > Szenario "Alle" für Buchungsreihen einführen

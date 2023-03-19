@@ -2,7 +2,8 @@ import { Szenario, Konto } from "src/_Domain/models";
 import { reactive } from "vue"
 
 const datumMin = new Date();
-const datumMax = new Date(datumMin).setFullYear(2040);
+const datumMax = new Date(datumMin);
+datumMax.setFullYear(2040);
 
 let datastore = {
     datumMin: datumMin,

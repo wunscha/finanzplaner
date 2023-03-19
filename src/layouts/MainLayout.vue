@@ -75,6 +75,11 @@
       caption: 'Analyse Entwicklung Kontostande über Zeitraum',
       link: 'analysen-zeitreihe',
     },
+    {
+      title: 'Jahresbericht Kontosalden',
+      caption: 'Übersicht über Kontosalden für Jahr',
+      link: 'jahresbericht-kontosalden',
+    },
   ]
 
   export default defineComponent({

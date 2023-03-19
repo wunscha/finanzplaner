@@ -136,14 +136,6 @@
               kontrollparameter.datumNaechsteBuchung > datumEndeBuchungsreihe;
             if (kontrollparameter.istAbgeschlossen) {
               continue;
-              // // quellkonto
-              // zeitreihenKontostaende[idSzenario][idQuellkonto].push(
-              //   kontostaendeAktuell[idSzenario][idQuellkonto]
-              // );
-              // // zielkonto
-              // zeitreihenKontostaende[idSzenario][idZielkonto].push(
-              //   kontostaendeAktuell[idSzenario][idZielkonto]
-              // );
             }
             else {
               while (kontrollparameter.datumNaechsteBuchung <= datum) {

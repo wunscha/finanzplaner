@@ -10,6 +10,7 @@ const routes = [
       { path: 'buchungsreihen', component: () => import('src/pages/Buchungsreihen.vue') },
       { path: 'analysen-zeitpunkt', component: () => import('src/pages/AnalysenZeitpunkt.vue') },
       { path: 'analysen-zeitreihe', component: () => import('src/pages/AnalysenZeitreihe.vue') },
+      { path: 'jahresbericht-kontosalden', component: () => import('src/pages/JahresberichtKontosalden.vue') },
     ]
   },
 
