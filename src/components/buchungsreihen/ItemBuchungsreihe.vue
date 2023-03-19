@@ -1,5 +1,5 @@
 <template>
-  <q-card class="fp-item cursor-pointer" style="min-width: 500px;" @click="onClickItem">
+  <q-card class="fp-item cursor-pointer" @click="onClickItem">
     <q-card-section class="row items-center q-pb-none fp-item-head">
       <div>{{ buchungsreihe.bezeichnung }}</div>
       <q-space />
@@ -18,7 +18,9 @@
 
   export default defineComponent({
     name: 'ItemBuchungsreihe',
-    props: ['buchungsreihe'],
+    props: [
+      'buchungsreihe'
+    ],
     methods: {
       onClickItem() {
         this.$emit('click', this.buchungsreihe);

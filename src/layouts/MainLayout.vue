@@ -52,13 +52,23 @@
   const linksList = [
     {
       title: 'Szenarien',
-      caption: 'Verwaltung von Szenarien',
+      caption: 'Verwaltung Szenarien',
       link: 'szenarien',
     },
     {
-      title: 'Kontoschemata',
-      caption: 'Verwaltung von Kontoschemata',
-      link: 'kontoschemata',
+      title: 'Konten',
+      caption: 'Verwaltung Konten',
+      link: 'konten',
+    },
+    {
+      title: 'Buchungsreihen',
+      caption: 'Verwaltung Buchungsreihen',
+      link: 'buchungsreihen',
+    },
+    {
+      title: 'Analysen Zeitpunkt',
+      caption: 'Analyse Kontostände nach Zeitpunkt',
+      link: 'analysen-zeitpunkt',
     },
   ]
 

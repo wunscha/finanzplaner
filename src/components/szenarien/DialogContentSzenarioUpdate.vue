@@ -33,9 +33,8 @@
     },
     methods: {
       onSubmit() {
-        let szenarioUpdate = {
-          id: this.szenarioAktuell.id,
-        };
+        let szenarioUpdate = {};
+        Object.assign(szenarioUpdate, this.szenarioAktuell);
         Object.assign(szenarioUpdate, this.formdata);
         datastoremanager.update(szenarioUpdate, datastoremanager.keys.szenarien);
         this.$emit('submit');

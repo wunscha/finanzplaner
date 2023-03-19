@@ -9,7 +9,6 @@ class Datastoremanger {
 
   keys = {
     szenarien: 'szenarien',
-    kontoschemata: 'kontoschemata',
     konten: 'konten',
     buchungsreihen: 'buchungsreihen',
     buchungen: 'buchungen'

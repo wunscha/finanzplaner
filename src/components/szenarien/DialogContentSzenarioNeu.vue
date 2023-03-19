@@ -26,8 +26,6 @@
         formdata: {
           bezeichnung: ref(''),
           beschreibung: ref(''),
-          kontostandInitial: ref(0),
-          istExtern: ref(false),
         }
       }
     },
@@ -37,14 +35,8 @@
         this.formdata.beschreibung = '';
       },
       onSubmit() {
-        let szenarioNeu = datastoremanager.create(new Szenario(this.formdata), datastoremanager.keys.szenarien);
-        for (let kontoschema of datastoremanager.datastore[datastoremanager.keys.kontoschemata]) {
-          let kontoNeu = new Konto({
-            kontoschema: kontoschema,
-            szenario: szenarioNeu,
-          });
-          datastoremanager.create(kontoNeu, datastoremanager.keys.konten);
-        };
+        let szenarioNeu = new Szenario(this.formdata);
+        datastoremanager.create(szenarioNeu, datastoremanager.keys.szenarien);
         this.zuruecksetzeFormular();
         this.$emit('submit');
       },

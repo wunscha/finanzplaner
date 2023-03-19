@@ -1,5 +1,5 @@
 <template>
-  <DialogContent :titel="kontoschemaAktuell.bezeichnung">
+  <DialogContent :titel="kontoAktuell.bezeichnung">
     <q-form @submit="onSubmit">
       <div class="q-gutter-md">
         <q-input filled v-model="formdata.bezeichnung"  label="Bezeichnung" :rules="[val => val && val.length > 0] || 'Bitte Bezeichnung angeben'"/>
@@ -18,30 +18,29 @@
   import datastoremanager from 'src/_DataManipulation/datastoremanager'
 
   export default defineComponent({
-    name: 'DialogContentKontoschemaNeu',
+    name: 'DialogContentKontoNeu',
     components: {
       DialogContent,
     },
     props: [
-      'kontoschemaAktuell',
+      'kontoAktuell',
     ],
     data(){
       return {
         formdata: {
-          bezeichnung: ref(this.kontoschemaAktuell.bezeichnung),
-          beschreibung: ref(this.kontoschemaAktuell.beschreibung),
-          kontostandInitial: ref(this.kontoschemaAktuell.kontostandInitial),
-          istExtern: ref(this.kontoschemaAktuell.istExtern),
+          bezeichnung: ref(this.kontoAktuell.bezeichnung),
+          beschreibung: ref(this.kontoAktuell.beschreibung),
+          kontostandInitial: ref(this.kontoAktuell.kontostandInitial),
+          istExtern: ref(this.kontoAktuell.istExtern),
         }
       }
     },
     methods: {
       onSubmit() {
-        let kontoschemaUpdate = {
-          id: this.kontoschemaAktuell.id,
-        };
-        Object.assign(kontoschemaUpdate, this.formdata);
-        datastoremanager.update(kontoschemaUpdate, datastoremanager.keys.kontoschemata);
+        let kontoUpdate = {};
+        Object.assign(kontoUpdate, this.kontoAktuell);
+        Object.assign(kontoUpdate, this.formdata);
+        datastoremanager.update(kontoUpdate, datastoremanager.keys.konten);
         this.$emit('submit');
       },
     },

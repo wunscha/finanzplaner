@@ -5,8 +5,8 @@
         <q-input filled v-model="formdata.bezeichnung"  label="Bezeichnung" :rules="[val => val && val.length > 0] || 'Bitte Bezeichnung angeben'"/>
         <q-input filled v-model="formdata.beschreibung"  label="Beschreibung" type="textarea" />
         <q-input filled v-model="formdata.betrag" label="Betrag" type="number" />
-        <q-select filled v-model="formdata.habenkonto" label="Quellkonto" :options="datastore.kontoschemata" option-label="kontoschema.bezeichnung" />
-        <q-select filled v-model="formdata.sollkonto" label="Zielkonto" :options="datastore.kontoschemata" option-label="kontoschema.bezeichnung" />
+        <q-select filled v-model="formdata.quellkonto" label="Quellkonto" :options="datastore.konten" option-label="bezeichnung" />
+        <q-select filled v-model="formdata.zielkonto" label="Zielkonto" :options="datastore.konten" option-label="bezeichnung" />
         <q-input filled v-model="formdata.datumAnfang" label="Datum Anfang" type="date" />
         <q-input filled v-model="formdata.datumEnde" label="Datum Ende" type="date" />
         <div>{{ buchungsintervallAktuell }}</div>
@@ -20,6 +20,7 @@
   import { defineComponent, ref } from 'vue';
   import DialogContent from '../DialogContent.vue';
   import datastoremanager from 'src/_DataManipulation/datastoremanager';
+  import formatierer from 'src/_Application/formatierer';
   import datastore from 'src/_Data/datastore';
   import { Buchungsreihe } from 'src/_Domain/models';
 
@@ -27,20 +28,24 @@
 
   export default defineComponent({
     name: 'DialogContentBuchungsreiheNeu',
+    components: {
+      DialogContent,
+    },
     props: [
       'buchungsintervallAktuell',
       'szenarioAktuell',
     ],
     data(){
       return {
+        datastore: datastore,
         formdata: {
           bezeichnung: ref(''),
           beschreibung: ref(''),
           betrag: ref(0),
-          sollkonto: ref(null),
-          habenkonto: ref(null),
-          datumAnfang: ref(datastore.datumMin),
-          datumEnde: ref(datastore.datumMax),
+          quellkonto: ref(null),
+          zielkonto: ref(null),
+          datumAnfang: ref(formatierer.dateFuerInput(datastore.datumMin)),
+          datumEnde: ref(formatierer.dateFuerInput(datastore.datumMax)),
         }
       }
     },
@@ -49,10 +54,10 @@
         this.formdata.bezeichnung = ref('');
         this.formdata.beschreibung = ref('');
         this.formdata.betrag = ref(0);
-        this.formdata.sollkonto = ref(null);
-        this.formdata.habenkonto = ref(null);
-        this.formdata.datumAnfang = ref(datastore.datumMin);
-        this.formdata.datumEnde = ref(datastore.datumMax);
+        this.formdata.quellkonto = ref(null);
+        this.formdata.zielkonto = ref(null);
+        this.formdata.datumAnfang = ref(formatierer.dateFuerInput(datastore.datumMin));
+        this.formdata.datumEnde = ref(formatierer.dateFuerInput(datastore.datumMax));
       },
       onSubmit() {
         let buchungsreiheNeu = new Buchungsreihe({

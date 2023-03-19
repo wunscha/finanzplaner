@@ -6,7 +6,9 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'szenarien', component: () => import('src/pages/Szenarien.vue') },
-      { path: 'kontoschemata', component: () => import('src/pages/Kontoschemata.vue') },
+      { path: 'konten', component: () => import('src/pages/Konten.vue') },
+      { path: 'buchungsreihen', component: () => import('src/pages/Buchungsreihen.vue') },
+      { path: 'analysen-zeitpunkt', component: () => import('src/pages/AnalysenZeitpunkt.vue') },
     ]
   },
 

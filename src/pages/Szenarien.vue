@@ -32,7 +32,7 @@
   import datastore from '../_Data/datastore'
 
   export default defineComponent({
-    name: 'UebersichtSzenarien',
+    name: 'Szenarien',
     components: {
       ItemSzenario,
       DialogContentSzenarioNeu,

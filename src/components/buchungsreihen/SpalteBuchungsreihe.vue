@@ -5,8 +5,10 @@
     <ItemBuchungsreihe
       v-for="buchungsreihe in buchungsreihenSzenarioAktuell"
       :buchungsreihe="buchungsreihe"
+      @click="(buchungsreihe) => $emit('clickItemBuchungsreihe', buchungsreihe)"
     />
     <q-btn
+      v-if="szenarioAktuell"
       round
       color="green"
       icon="add"
@@ -18,19 +20,20 @@
 <script>
 import { defineComponent } from 'vue'
 import ItemBuchungsreihe from './ItemBuchungsreihe.vue';
-import datastore from '../_Data/datastore'
-import dialoge from '../infrastructure/dialoge'
+import datastore from 'src/_Data/datastore'
 
 export default defineComponent({
-  name: 'SpalteUebersichtBuchungsreihen',
-  props: ['buchungsintervall', 'szenarioAktuell'],
+  name: 'SpalteBuchungsreihe',
+  props: [
+    'buchungsintervall',
+    'szenarioAktuell'
+  ],
   components: {
     ItemBuchungsreihe,
   },
   data() {
     return {
       datastore: datastore,
-      dialoge: dialoge,
     }
   },
   computed: {
@@ -41,6 +44,9 @@ export default defineComponent({
       );
     },
   },
-  emits: ['erzeuge'],
+  emits: [
+    'erzeuge',
+    'clickItemBuchungsreihe',
+  ],
 });
 </script>
