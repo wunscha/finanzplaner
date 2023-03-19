@@ -66,9 +66,14 @@
       link: 'buchungsreihen',
     },
     {
-      title: 'Analysen Zeitpunkt',
+      title: 'Analyse Zeitpunkt',
       caption: 'Analyse Kontostände nach Zeitpunkt',
       link: 'analysen-zeitpunkt',
+    },
+    {
+      title: 'Analyse Zeitreihe',
+      caption: 'Analyse Entwicklung Kontostande über Zeitraum',
+      link: 'analysen-zeitreihe',
     },
   ]
 

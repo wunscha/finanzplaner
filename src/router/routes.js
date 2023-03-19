@@ -9,6 +9,7 @@ const routes = [
       { path: 'konten', component: () => import('src/pages/Konten.vue') },
       { path: 'buchungsreihen', component: () => import('src/pages/Buchungsreihen.vue') },
       { path: 'analysen-zeitpunkt', component: () => import('src/pages/AnalysenZeitpunkt.vue') },
+      { path: 'analysen-zeitreihe', component: () => import('src/pages/AnalysenZeitreihe.vue') },
     ]
   },
 
