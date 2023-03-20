@@ -1,12 +1,12 @@
 <template>
   <q-card class="fp-item cursor-pointer" style="min-width: 500px;" @click="onClickItem">
-    <q-card-section class="row items-center q-pb-none fp-item-head">
+    <q-card-section class="row items-center bg-primary q-pa-md text-secondary text-bold fp-item-head">
       <div>{{ szenario.bezeichnung }}</div>
       <q-space />
-      <q-btn icon="close" flat round dense @click="onClickLoeschen" />
+      <q-btn icon="close" color="accent" flat round dense @click="onClickLoeschen" />
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section class="fp-item-body">
       {{ szenario.beschreibung }}
     </q-card-section>
   </q-card>

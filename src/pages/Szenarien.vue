@@ -8,7 +8,7 @@
       />
       <q-btn
         round
-        color="green"
+        color="positive"
         icon="add"
         @click="dialoge.szenarioNeu.zeige = true"
       />
