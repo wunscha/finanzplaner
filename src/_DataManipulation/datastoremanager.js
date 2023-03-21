@@ -47,26 +47,9 @@ class Datastoremanger {
     this.create(object, keyModel);
   }
 
-  ladeDatastoreAusDatei(file) {
-    let filereader = new FileReader();
-    filereader.onload = evt => {
-      let fileAlsString = evt.target.result;
-      let fileAlsJSON = JSON.parse(fileAlsString);
-      this.datastore = reactive(fileAlsJSON);
-      console.log("datastore aus Datei geladen");
-    };
-    filereader.readAsText(file);
-  }
-
-  downloadeDatastoreAlsDatei() {
-    // siehe: https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
-    let datastoreAlsString = JSON.stringify(datastore);
-    let aTmp = document.createElement('a');
-    aTmp.setAttribute('href', 'data:text/plain;charset=utf8,' + encodeURIComponent(datastoreAlsString));
-    aTmp.setAttribute('download', 'datastore.json');
-    document.body.appendChild(aTmp);
-    aTmp.click();
-    document.body.removeChild(aTmp);
+  ueberschreibeDatastore(datastoreNeu) {
+    // Für Laden Datastore aus Datei
+    Object.assign(this.datastore, datastoreNeu);
   }
 
 }

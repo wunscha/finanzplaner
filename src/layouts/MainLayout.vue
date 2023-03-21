@@ -16,6 +16,10 @@
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
+
+        <q-space />
+
+        <q-btn label="Einstellungen" @click="dialoge.menueEinstellungen.zeige = true" />
       </q-toolbar>
     </q-header>
 
@@ -43,11 +47,16 @@
       <router-view />
     </q-page-container>
   </q-layout>
+
+  <q-dialog v-model="dialoge.menueEinstellungen.zeige">
+    <DialogContentMenueEinstellungen @submit="dialoge.menueEinstellungen.zeige = false" />
+  </q-dialog>
 </template>
 
 <script>
   import { defineComponent, ref } from 'vue'
   import EssentialLink from 'components/EssentialLink.vue'
+  import DialogContentMenueEinstellungen from 'src/components/einstellungen/DialogContentMenueEinstellungen.vue';
 
   const linksList = [
     {
@@ -86,7 +95,16 @@
     name: 'MainLayout',
 
     components: {
-      EssentialLink
+      EssentialLink,
+      DialogContentMenueEinstellungen,
+    },
+
+    data() {
+      return {
+        dialoge: {
+          menueEinstellungen: {zeige: false}
+        }
+      }
     },
 
     setup () {
