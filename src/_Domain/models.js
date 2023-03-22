@@ -16,6 +16,7 @@ export class Szenario {
     this.id = generiereId();
     this.bezeichnung = data.bezeichnung;
     this.beschreibung = data.beschreibung;
+    this.istAllgemein = data.istAllgemein;
   }
 }
 

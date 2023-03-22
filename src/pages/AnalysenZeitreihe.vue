@@ -139,10 +139,17 @@
             }
             else {
               while (kontrollparameter.datumNaechsteBuchung <= datum) {
-                // quellkonto
-                kontostaendeAktuell[idSzenario][idQuellkonto] -= parseInt(buchungsreihe.betrag);
-                // zielkonto
-                kontostaendeAktuell[idSzenario][idZielkonto] += parseInt(buchungsreihe.betrag);
+                if (buchungsreihe.szenario.istAllgemein) {
+                  // Allgemeines Szenario
+                  for (let szenario of datastore.szenarien) {
+                    kontostaendeAktuell[szenario.id][idQuellkonto] -= parseInt(buchungsreihe.betrag);
+                    kontostaendeAktuell[szenario.id][idZielkonto] += parseInt(buchungsreihe.betrag);
+                  }
+                } else {
+                  // Bestimmtes Szenario
+                  kontostaendeAktuell[idSzenario][idQuellkonto] -= parseInt(buchungsreihe.betrag);
+                  kontostaendeAktuell[idSzenario][idZielkonto] += parseInt(buchungsreihe.betrag);
+                }
                 // berechne datumNaehsteBuchung
                 switch (buchungsreihe.buchungsintervall) {
                   case ENUM_BUCHUNGSINTERVALLE.woechentlich:

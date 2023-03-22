@@ -9,6 +9,7 @@ let datastore = {
     datumMin: datumMin,
     datumMax: datumMax,
     szenarien: [
+      new Szenario({bezeichnung: 'Allgemein', istAllgemein: true}),
       new Szenario({bezeichnung: 'Default'}),
     ],
     buchungsreihen: [],

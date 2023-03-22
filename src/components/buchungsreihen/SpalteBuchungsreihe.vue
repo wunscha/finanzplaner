@@ -39,7 +39,7 @@ export default defineComponent({
   computed: {
     buchungsreihenSzenarioAktuell() {
       return this.datastore.buchungsreihen.filter(br =>
-        br.szenario.id == this.szenarioAktuell.id &&
+        (br.szenario.id == this.szenarioAktuell.id || br.szenario.istAllgemein) &&
         br.buchungsintervall == this.buchungsintervall
       );
     },

@@ -62,7 +62,7 @@
         // filtere Buchungsreihen
         let idsKontenAktuell = this.kontenAktuell.map(k => k.id);
         let buchungsreihenGefiltert = this.datastore.buchungsreihen.filter(br =>
-          br.szenario.id == this.szenario.id &&
+          (br.szenario.id == this.szenario.id || br.szenario.istAllgemein) &&
           (
             idsKontenAktuell.includes(br.quellkonto.id) ||
             idsKontenAktuell.includes(br.zielkonto.id)
