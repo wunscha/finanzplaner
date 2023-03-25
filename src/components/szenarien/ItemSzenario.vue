@@ -1,12 +1,28 @@
 <template>
-  <q-card class="fp-item cursor-pointer" style="min-width: 500px;" @click="onClickItem">
-    <q-card-section class="row items-center bg-primary q-pa-md text-secondary text-bold fp-item-head">
+  <q-card
+    class="cursor-pointer"
+    :style="{
+      width: style.widths.item + '%',
+      maxWidth: style.widths.itemMax + 'px',
+      backgroundColor: style.colors.secondaryItem,
+      color: style.colors.secondaryTextItem,
+    }"
+    @click="onClickItem"
+  >
+    <q-card-section
+      class="row items-center q-pa-md"
+      :style="{
+        backgroundColor: style.colors.primaryItem,
+        color: style.colors.primaryTextItem,
+        fontSize: style.fontSizes.titelElement + 'rem',
+      }"
+    >
       <div>{{ szenario.bezeichnung }}</div>
       <q-space />
-      <q-btn icon="close" color="accent" flat round dense @click="onClickLoeschen" />
+      <q-btn icon="delete" flat round dense @click="onClickLoeschen" />
     </q-card-section>
 
-    <q-card-section class="fp-item-body">
+    <q-card-section>
       {{ szenario.beschreibung }}
     </q-card-section>
   </q-card>
@@ -15,6 +31,7 @@
 <script>
   import { defineComponent } from 'vue'
   import datastoremanager from 'src/_DataManipulation/datastoremanager'
+  import style from 'src/_Data/style'
 
   export default defineComponent({
     name: 'ItemSzenario',
@@ -25,6 +42,11 @@
       },
       onClickLoeschen() {
         datastoremanager.delete(this.szenario.id, datastoremanager.keys.szenarien);
+      }
+    },
+    data() {
+      return {
+        style: style,
       }
     },
     emits: [

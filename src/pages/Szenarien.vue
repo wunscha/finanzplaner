@@ -8,7 +8,10 @@
       />
       <q-btn
         round
-        color="positive"
+        :style="{
+          color: style.colors.accentText,
+          backgroundColor: style.colors.accent,
+        }"
         icon="add"
         @click="dialoge.szenarioNeu.zeige = true"
       />
@@ -30,6 +33,7 @@
   import DialogContentSzenarioNeu from 'src/components/szenarien/DialogContentSzenarioNeu.vue'
   import DialogContentSzenarioUpdate from 'src/components/szenarien/DialogContentSzenarioUpdate.vue';
   import datastore from '../_Data/datastore'
+  import style from 'src/_Data/style';
 
   export default defineComponent({
     name: 'Szenarien',
@@ -40,6 +44,7 @@
     },
     data() {
       return {
+        style: style,
         datastore: datastore,
         szenarioAktuell: ref(null),
         dialoge: {

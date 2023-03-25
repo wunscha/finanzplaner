@@ -1,23 +1,24 @@
 <template>
-  <q-card style="with: 100%">
-    <q-card-section class="row">
-      <h6>{{ szenario.bezeichnung }}</h6>
+  <q-card
+    :style="{
+      width: style.widths.item + '%',
+      maxWidth: style.widths.itemMax + 'px',
+      backgroundColor: style.colors.secondaryItem,
+      color: style.colors.secondaryTextItem,
+    }"
+  >
+    <q-card-section
+      class="row items-center"
+      :style="{
+        backgroundColor: style.colors.primaryItem,
+        color: style.colors.primaryTextItem,
+        fontSize: style.fontSizes.titelElement + 'rem',
+      }"
+    >
+      <div>{{ szenario.bezeichnung }}</div>
     </q-card-section>
 
     <q-card-section>
-      <div>{{ datum }}</div>
-      <q-spinner v-if="ladezustand" />
-      <div v-else>
-        <p>
-          <div class="text-bold">diagrammdaten.options:</div>
-          <div>{{ diagrammdaten.options }}</div>
-        </p>
-
-        <p>
-          <div class="text-bold">diagrammdaten.series:</div>
-          <div>{{ diagrammdaten.series }}</div>
-        </p>
-      </div>
       <apexchart
         v-if="diagrammdaten.options.xaxis.categories.length > 0"
         type="bar"
@@ -34,6 +35,7 @@
   import datastore from 'src/_Data/datastore';
   import { ENUM_BUCHUNGSINTERVALLE } from 'src/_Domain/models';
   import datastoremanager from 'src/_DataManipulation/datastoremanager';
+  import style from 'src/_Data/style';
   import VueApexChart from 'vue3-apexcharts';
 
 
@@ -50,8 +52,11 @@
     ],
     data() {
       return {
+        style: style,
         datastore: datastore,
         ladezustand: ref(false),
+        yaxisMax: ref(0),
+        yaxisMin: ref(0),
       }
     },
     computed: {
@@ -140,6 +145,8 @@
           xaxis: {
             categories: [],
           },
+          yaxis: {
+          }
         }
         let data = [];
         for (let [key, val] of Object.entries(kontostaende)) {
@@ -147,7 +154,6 @@
           optionsDiagramm.xaxis.categories.push(konto.bezeichnung);
           // TODO: Wenn Probleme mit Rendern von Chart auftreten: wenn val == 0 wird von apexcharts immer "expectedValue"-Error geworfen ==> ggf. irgendeneinen Pseudowert verwenden, wenn Kontostand = 0
           data.push(val);
-
         }
         let diagrammdaten = {
           options: optionsDiagramm,

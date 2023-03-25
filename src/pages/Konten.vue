@@ -8,7 +8,10 @@
       />
       <q-btn
         round
-        color="green"
+        :style="{
+          color: style.colors.accentText,
+          backgroundColor: style.colors.accent,
+        }"
         icon="add"
         @click="dialoge.kontoNeu.zeige = true"
       />
@@ -30,6 +33,7 @@
   import DialogContentKontoNeu from 'src/components/konten/DialogContentKontoNeu.vue'
   import DialogContentKontoUpdate from 'src/components/konten/DialogContentKontoUpdate.vue';
   import datastore from '../_Data/datastore'
+  import style from 'src/_Data/style'
 
   export default defineComponent({
     name: 'Konten',
@@ -41,6 +45,7 @@
     },
     data() {
       return {
+        style: style,
         datastore: datastore,
         kontoAktuell: ref(null),
         dialoge: {

@@ -6,7 +6,16 @@
         <q-input filled v-model="formdata.beschreibung"  label="Beschreibung" type="textarea"/>
         <q-input filled v-model="formdata.kontostandInitial"  label="Kontostand Initial"  type="number"/>
         <q-checkbox v-model="formdata.istExtern" label="Extern" />
-        <q-btn label="OK" type="submit" color="primary"/>
+        <div class="row justify-end">
+          <q-btn
+            type="submit"
+            icon="check"
+            :style="{
+              color: style.colors.accentText,
+              backgroundColor: style.colors.accent,
+            }"
+          />
+        </div>
       </div>
     </q-form>
   </DialogContent>
@@ -16,6 +25,7 @@
   import { defineComponent, ref } from 'vue'
   import DialogContent from '../DialogContent.vue';
   import datastoremanager from 'src/_DataManipulation/datastoremanager'
+  import style from 'src/_Data/style';
   import { Konto } from 'src/_Domain/models'
 
   export default defineComponent({
@@ -25,6 +35,7 @@
     },
     data(){
       return {
+        style: style,
         formdata: {
           bezeichnung: ref(''),
           beschreibung: ref(''),

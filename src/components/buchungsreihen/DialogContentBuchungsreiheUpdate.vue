@@ -10,7 +10,16 @@
         <q-input filled v-model="formdata.datumAnfang" label="Datum Anfang" type="date"/>
         <q-input filled v-model="formdata.datumEnde" label="Datum Ende" type="date" />
         <div>{{ buchungsreiheAktuell.buchungsintervall }}</div>
-        <q-btn label="OK" type="submit" color="primary"/>
+        <div class="row justify-end">
+          <q-btn
+            type="submit"
+            icon="check"
+            :style="{
+              color: style.colors.accentText,
+              backgroundColor: style.colors.accent,
+            }"
+          />
+        </div>
       </div>
     </q-form>
   </DialogContent>
@@ -22,6 +31,7 @@
   import datastore from 'src/_Data/datastore';
   import datastoremanager from 'src/_DataManipulation/datastoremanager'
   import formatierer from 'src/_Application/formatierer';
+  import style from 'src/_Data/style';
 
   export default defineComponent({
     name: 'DialogContentBuchungsreiheUpdate',
@@ -34,6 +44,7 @@
     ],
     data(){
       return {
+        style: style,
         datastore: datastore,
         formdata: {
           bezeichnung: ref(this.buchungsreiheAktuell.bezeichnung),
