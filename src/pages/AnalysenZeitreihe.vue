@@ -1,24 +1,37 @@
 <template>
   <q-page>
-    <q-select
-      filled
-      multiple
-      v-model="szenarienAktuell"
-      label="Aktuelle Szenarien"
-      :options="datastore.szenarien"
-      option-label="bezeichnung"
-    />
+    <div class="row">
+      <q-select
+        class="col-6 q-pa-sm"
+        filled
+        multiple
+        v-model="szenarienAktuell"
+        label="Aktuelle Szenarien"
+        :options="datastore.szenarien"
+        option-label="bezeichnung"
+      />
 
-    <q-select
-      filled
-      multiple
-      v-model="kontenAktuell"
-      label="Aktuelle Konten"
-      :options="datastore.konten"
-      option-label="bezeichnung"
-    />
+      <q-select
+        class="col-6 q-pa-sm"
+        filled
+        multiple
+        v-model="kontenAktuell"
+        label="Aktuelle Konten"
+        :options="datastore.konten"
+        option-label="bezeichnung"
+      />
+    </div>
 
-    <q-input
+    <div class="row justify-center q-pa-md">
+      <div class="flex flex-center q-gutter-xl">
+        <InputDatum :datum-init="datumAnfangAktuell" @update="datum => datumAnfangAktuell = datum" />
+        <q-icon name="trending_flat" size="xl"/>
+        <InputDatum :datum-init="datumEndeAktuell" @update="datum => datumEndeAktuell = datum" />
+      </div>
+    </div>
+    <q-separator />
+
+    <!-- <q-input
       v-model="datumAnfangAktuell"
       label="Datum Anfang"
       :min="datastore.datumMin"
@@ -34,7 +47,7 @@
       :max="datastore.datumMax"
       type="date"
       stack-label
-    />
+    /> -->
 
     <div class="column items-center q-gutter-md q-pa-md">
       <ItemAnalyseZeitreihe
@@ -55,6 +68,7 @@
 <script>
   import { defineComponent, ref } from 'vue'
   import ItemAnalyseZeitreihe from 'src/components/analysenZeitreihe/ItemAnalyseZeitreihe.vue'
+  import InputDatum from 'src/components/InputDatum.vue';
   import datastore from '../_Data/datastore'
   import formatierer from 'src/_Application/formatierer';
   import { ENUM_BUCHUNGSINTERVALLE } from 'src/_Domain/models';
@@ -63,6 +77,7 @@
     name: 'Konten',
     components: {
       ItemAnalyseZeitreihe,
+      InputDatum,
     },
     data() {
       return {

@@ -8,7 +8,7 @@
     }"
   >
     <q-card-section
-      class="row items-center"
+      class="flex flex-center q-pa-sm"
       :style="{
         backgroundColor: style.colors.primaryItem,
         color: style.colors.primaryTextItem,
