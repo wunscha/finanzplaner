@@ -9,8 +9,12 @@
     }"
     @click="onClickItem"
   >
+    <q-menu context-menu>
+      <q-btn icon="delete" color="negative" size="xl" @click="onClickLoeschen" />
+    </q-menu>
+
     <q-card-section
-      class="row items-center q-pa-md"
+      class="flex flex-center q-pa-sm"
       :style="{
         backgroundColor: style.colors.primaryItem,
         color: style.colors.primaryTextItem,
@@ -18,8 +22,6 @@
       }"
     >
       <div>{{ buchungsreihe.bezeichnung }}</div>
-      <q-space />
-      <q-btn icon="delete" flat round dense @click="onClickLoeschen" />
     </q-card-section>
 
     <q-card-section>

@@ -8,8 +8,12 @@
     }"
     @click="onClickItem"
   >
+    <q-menu context-menu>
+      <q-btn icon="delete" color="negative" size="xl" @click="onClickLoeschen" />
+    </q-menu>
+
     <q-card-section
-      class="row items-center q-pa-md"
+      class="flex flex-center q-pa-sm"
       :style="{
         backgroundColor: style.colors.primaryItem,
         color: style.colors.primaryTextItem,
@@ -17,13 +21,13 @@
       }"
     >
       <div>{{ konto.bezeichnung }}</div>
-      <q-space />
-      <q-btn icon="delete" flat round dense @click="onClickLoeschen" />
     </q-card-section>
 
-    <q-card-section>
-      {{ konto.beschreibung }}
-    </q-card-section>
+    <template v-if="konto.beschreibung && konto.beschreibung.length > 0">
+      <q-card-section>
+        {{ konto.beschreibung }}
+      </q-card-section>
+    </template>
   </q-card>
 </template>
 

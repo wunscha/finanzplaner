@@ -5,7 +5,7 @@
         <q-input filled v-model="formdata.bezeichnung"  label="Bezeichnung" :rules="[val => val && val.length > 0] || 'Bitte Bezeichnung angeben'"/>
         <q-input filled v-model="formdata.beschreibung"  label="Beschreibung" type="textarea"/>
         <q-input filled v-model="formdata.kontostandInitial"  label="Kontostand Initial"  type="number"/>
-        <q-checkbox v-model="formdata.istExtern" label="Extern" />
+        <!-- <q-checkbox v-model="formdata.istExtern" label="Extern" /> -->
         <div class="row justify-end">
           <q-btn
             type="submit"
