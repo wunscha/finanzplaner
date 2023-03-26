@@ -19,32 +19,19 @@
     </q-card-section>
 
     <q-card-section>
-      <div class="text-bold">
-        options:
-      </div>
-      <div>
-        {{ diagramm.options }}
-      </div>
-
-      <div class="text-bold">
-        series:
-      </div>
-      <div>
-        {{ diagramm.series }}
+      <div
+        :style="{
+          position: 'relative',
+          width: '100%',
+        }"
+      >
+        <canvas :id="'diagramm-' + szenario.id"></canvas>
       </div>
 
-      <div class="text-bold">
-        categories:
-      </div>
-      <div>
-        {{ diagramm.categories }}
-      </div>
       <!-- <apexchart
-        v-if="diagrammdaten.options.xaxis.categories.length > 0"
         type="bar"
-        height="350"
-        :options="diagrammdaten.options"
-        :series="diagrammdaten.series"
+        :options="diagramm.options"
+        :series="diagramm.series"
       ></apexchart> -->
     </q-card-section>
   </q-card>
@@ -52,15 +39,17 @@
 
 <script>
   import { defineComponent, ref } from 'vue'
-  import style from 'src/_Data/style';
-  import VueApexChart from 'vue3-apexcharts';
+  import style from 'src/_Data/style'
+  import Chart from 'chart.js/auto'
+  import ChartDataLabels from 'chartjs-plugin-datalabels'
+  // import VueApexChart from 'vue3-apexcharts'
 
 
 
   export default defineComponent({
     name: 'ItemAnalyseZeitpunkt',
     components: {
-      apexchart: VueApexChart,
+      // apexchart: VueApexChart,
     },
     props: [
       'szenario',
@@ -72,29 +61,65 @@
     data() {
       return {
         style: style,
+        chart: ref(null),
       }
     },
-    computed: {
-      /**
-       * Alle Informationen, die für rendern der Diagramm erforderlich sind werden zusammengefasst und zurückgegeben,
-       * damit keine Probleme auftreten, weil manche Werte früher zur Verfügung stehen als andere
-       */
-      diagramm() {
-        let categories = [];
-        let series = [{data: []}];
+    methods: {
+      zeichneDiagramm() {
+        let labels = [];
+        let datasets = [{data: []}];
         for (let konto of this.kontenAktuell) {
-          categories.push(konto.bezeichnung);
+          labels.push(konto.bezeichnung);
           let kontostand = this.kontostaende[konto.id];
-          series[0].data.push(kontostand);
+          datasets[0].data.push(kontostand);
         }
-
-        let options = 'nicht implementiert';
-        return {
-          series: series,
-          categories: categories,
-          options: options,
+        if (this.chart) {
+          this.chart.destroy();
         }
-      },
+        this.chart = new Chart(
+          document.getElementById('diagramm-' + this.szenario.id),
+          {
+            type: 'bar',
+            plugins: [ChartDataLabels],
+            options: {
+              layout: {
+                padding: 15,
+              },
+              scales: {
+                y: {
+                  min: this.kontostandMin,
+                  max: this.kontostandMax,
+                },
+                x: {
+                  position: {y: 0},
+                  ticks: {
+                    padding: -5,
+                  }
+                }
+              },
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                datalabels: {
+                  backgroundColor: 'black',
+                  color: 'white',
+                }
+              }
+            },
+            data: {
+              labels: labels,
+              datasets: datasets,
+            }
+          }
+        )
+      }
     },
+    mounted() {
+      this.zeichneDiagramm();
+    },
+    updated() {
+      this.zeichneDiagramm();
+    }
   });
 </script>

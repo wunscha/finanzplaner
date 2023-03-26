@@ -1,30 +1,40 @@
 <template>
   <q-page>
-    <q-select
-      filled
-      multiple
-      v-model="szenarienAktuell"
-      label="Aktuelle Szenarien"
-      :options="datastore.szenarien"
-      option-label="bezeichnung"
-    />
+    <div class="row">
+      <q-select
+        class="col-6 q-pa-sm"
+        filled
+        multiple
+        v-model="szenarienAktuell"
+        label="Aktuelle Szenarien"
+        :options="datastore.szenarien"
+        option-label="bezeichnung"
+      />
 
-    <q-select
-      filled
-      multiple
-      v-model="kontenAktuell"
-      label="Aktuelle Konten"
-      :options="datastore.konten"
-      option-label="bezeichnung"
-    />
+      <q-select
+        class="col-6 q-pa-sm"
+        filled
+        multiple
+        v-model="kontenAktuell"
+        label="Aktuelle Konten"
+        :options="datastore.konten"
+        option-label="bezeichnung"
+      />
+    </div>
 
-    <q-input
-      v-model="datumAktuell"
-      label="Datum"
-      :max="datastore.datumMax"
-      type="date"
-      stack-label
-    />
+    <div class="flex flex-center q-pa-sm">
+      <InputDatum :datum-init="datumAktuell" @update="datum => datumAktuell = datum" />
+    </div>
+
+    <q-separator />
+      <!-- <q-input
+        class="col-4 q-pa-sm"
+        v-model="datumAktuell"
+        label="Datum"
+        :max="datastore.datumMax"
+        type="date"
+        stack-label
+      /> -->
 
     <!-- Ladezustand -->
     <div
@@ -37,7 +47,6 @@
       v-else
       class="column items-center q-gutter-md q-pa-md"
     >
-      <!-- {{ diagrammdaten }} -->
       <ItemAnalyseZeitpunkt
         v-for="szenario in szenarienAktuell"
         :szenario="szenario"
@@ -53,6 +62,7 @@
 <script>
   import { defineComponent, ref } from 'vue'
   import ItemAnalyseZeitpunkt from 'src/components/analysenZeitpunkt/ItemAnalyseZeitpunkt.vue'
+  import InputDatum from 'src/components/InputDatum.vue'
   import datastore from '../_Data/datastore'
   import formatierer from 'src/_Application/formatierer'
   import { ENUM_BUCHUNGSINTERVALLE } from 'src/_Domain/models'
@@ -61,6 +71,7 @@
     name: 'Konten',
     components: {
       ItemAnalyseZeitpunkt,
+      InputDatum,
     },
     data() {
       return {
@@ -123,7 +134,7 @@
             // Kontoausgang
             if (kontostaende[buchungsreihe.szenario.id][buchungsreihe.quellkonto.id] != undefined) {
               // wenn Szenario Allgemein -> für alle Szenarien buchen
-              if (buchungsreihe.istAllgemein) {
+              if (buchungsreihe.szenario.istAllgemein) {
                 for (let idSz of idsSzenarienAktuell) {
                   kontostaende[idSz][buchungsreihe.quellkonto.id] -= parseInt(buchungsreihe.betrag);
                 }
@@ -134,7 +145,7 @@
             // Kontoeingang
             if (kontostaende[buchungsreihe.szenario.id][buchungsreihe.zielkonto.id] != undefined) {
               // wenn Szenario Allgemein -> für alle Szenarien buchen
-              if (buchungsreihe.istAllgemein) {
+              if (buchungsreihe.szenario.istAllgemein) {
                 for (let idSz of idsSzenarienAktuell) {
                   kontostaende[idSz][buchungsreihe.zielkonto.id] += parseInt(buchungsreihe.betrag);
                 }

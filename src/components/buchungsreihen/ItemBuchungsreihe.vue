@@ -23,7 +23,41 @@
     </q-card-section>
 
     <q-card-section>
-      {{ buchungsreihe.beschreibung }}
+      <div class="q-gutter-sm">
+        <!-- Betrag -->
+        <div class="flex flex-center q-gutter-sm">
+          <q-icon name="euro" />
+          <div>{{ buchungsreihe.betrag }}</div>
+        </div>
+        <q-separator />
+        <!-- Datum Anfang / Ende -->
+        <div class="row items-center">
+          <div class="col-4 flex flex-center">
+            {{ datumAnfangFormatiert }}
+          </div>
+          <div class="col-4 flex flex-center">
+            <q-icon name="more_horiz" />
+          </div>
+          <div class="col-4 flex flex-center">
+            {{ datumEndeFormatiert }}
+          </div>
+        </div>
+        <q-separator />
+        <!-- Quellkonto / Zielkonto -->
+        <div class="row items-center">
+          <div class="col-4 flex flex-center">
+            {{ buchungsreihe.quellkonto.bezeichnung }}
+          </div>
+          <div class="col-4 flex flex-center">
+            <q-icon name="trending_flat" />
+          </div>
+          <div class="col-4 flex flex-center">
+            {{ buchungsreihe.zielkonto.bezeichnung }}
+          </div>
+        </div>
+      </div>
+
+
     </q-card-section>
   </q-card>
 </template>
@@ -32,6 +66,7 @@
   import { defineComponent } from 'vue'
   import datastoremanager from 'src/_DataManipulation/datastoremanager'
   import style from 'src/_Data/style';
+import formatierer from 'src/_Application/formatierer';
 
   export default defineComponent({
     name: 'ItemBuchungsreihe',
@@ -49,6 +84,14 @@
       },
       onClickLoeschen() {
         datastoremanager.delete(this.buchungsreihe.id, datastoremanager.keys.buchungsreihen);
+      }
+    },
+    computed: {
+      datumAnfangFormatiert() {
+        return formatierer.dateFuerQuasarInput(this.buchungsreihe.datumAnfang);
+      },
+      datumEndeFormatiert() {
+        return formatierer.dateFuerQuasarInput(this.buchungsreihe.datumEnde);
       }
     },
     emits: [

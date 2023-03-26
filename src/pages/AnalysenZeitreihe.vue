@@ -37,27 +37,17 @@
     />
 
     <div class="column items-center q-gutter-md q-pa-md">
-      <!-- <p>
-        <div class="text-bold">Arr Datum</div>
-        <div>{{ arrDatum && arrDatum.length }}</div>
-        <div>{{ arrDatum }}</div>
-
-        <div class="text-bold">Zeitreihen Kontostaende</div>
-        <div>{{ zeitreihenKontostaende && zeitreihenKontostaende['0']['4'].length }}</div>
-        <div>{{ zeitreihenKontostaende }}</div>
-      </p> -->
-
-      <template v-if="zeitreihenKontostaende">
-        <ItemAnalyseZeitreihe
-          v-for="[idSzenario, zeitreihenKontostaende] in Object.entries(zeitreihenKontostaende)"
-          :id-szenario="idSzenario"
-          :zeitreihen-kontostaende="zeitreihenKontostaende"
-          :konten-aktuell="kontenAktuell"
-          :arr-datum="arrDatum"
-          :datum-anfang-aktuell="datumAnfangAktuell"
-          :datum-ende-aktuell="datumEndeAktuell"
-        />
-      </template>
+      <ItemAnalyseZeitreihe
+        v-for="szenario in szenarienAktuell"
+        :szenario="szenario"
+        :konten-aktuell="kontenAktuell"
+        :zeitreihen-kontostaende="diagrammdaten.zeitreihenKontostaende[szenario.id]"
+        :kontostand-max="diagrammdaten.kontostandMax"
+        :kontostand-min="diagrammdaten.kontostandMin"
+        :arr-datum="arrDatum"
+        :datum-anfang="datumAnfangAktuell"
+        :datum-ende="datumEndeAktuell"
+      />
     </div>
   </q-page>
 </template>
@@ -79,26 +69,36 @@
         datastore: datastore,
         szenarienAktuell: ref([datastore.szenarien[0], ]),
         kontenAktuell: ref([]),
-        arrDatum: this.berechneArrDatum(),
+        // arrDatum: this.berechneArrDatum(),
         datumAnfangAktuell: ref(formatierer.dateFuerInput(datastore.datumMin)),
         datumEndeAktuell: ref(formatierer.dateFuerInput(datastore.datumMax)),
       }
     },
     methods: {
       berechneArrDatum() {
-        let datum = new Date(datastore.datumMin);
+        let datum = new Date(this.datastore.datumMin);
+        let datumMax = new Date(this.datastore.datumMax);
         let arrDatum = [];
-        while (datum < datastore.datumMax) {
+        while (datum < datumMax) {
           arrDatum.push(datum);
           datum = new Date(datum.setMonth(datum.getMonth() + 1));
         }
+        arrDatum = arrDatum.filter(dat =>
+          new Date(dat) >= new Date(this.datumAnfangAktuell) &&
+          new Date(dat) <= new Date(this.datumEndeAktuell)
+        );
         return arrDatum;
       }
     },
     computed: {
-      zeitreihenKontostaende() {
+      /**
+       * Alle Informationen, die für rendern der Diagramm erforderlich sind werden zusammengefasst und zurückgegeben,
+       * damit keine Probleme auftreten, weil manche Werte (zB kontenAktuell) früher zur Verfügung stehen als andere (zB kontostaende)
+       */
+      diagrammdaten() {
         // arrDatum
         let arrDatum = this.berechneArrDatum();
+
         // initialisiere kontrollparameterBuchungsreihen
         let kontrollparameterBuchungsreihen = {};
         for (let buchungsreihe of this.datastore.buchungsreihen) {
@@ -180,7 +180,35 @@
           }
         }
 
-        return zeitreihenKontostaende;
+        // zusammenfasseDiagrammdaten
+        let diagrammdaten = {
+          zeitreihenKontostaende: zeitreihenKontostaende,
+          kontostandMin: 0,
+          kontostandMax: 0,
+          kontenAktuell: this.kontenAktuell,
+        }
+
+        // ermittle KontostandMin und kontostandMax
+        let idsSzenarienAktuell = this.szenarienAktuell.map(sz => sz.id);
+        for (let [idSz, zeitreihenKontostaendeSz] of Object.entries(zeitreihenKontostaende)) {
+          for (let zrKs of Object.values(zeitreihenKontostaendeSz)) {
+            let kontoStandMaxZeitreihe = Math.max(...zrKs);
+            if (idsSzenarienAktuell.includes(parseInt(idSz))) {
+              if (kontoStandMaxZeitreihe > diagrammdaten.kontostandMax) {
+                diagrammdaten.kontostandMax = kontoStandMaxZeitreihe;
+              }
+              let kontostandMinZeitreihe = Math.min(...zrKs);
+              if (kontostandMinZeitreihe < diagrammdaten.kontostandMin) {
+                diagrammdaten.kontostandMin = kontostandMinZeitreihe;
+              }
+            }
+          }
+        }
+
+        return diagrammdaten;
+      },
+      arrDatum() {
+        return this.berechneArrDatum()
       }
     }
   });

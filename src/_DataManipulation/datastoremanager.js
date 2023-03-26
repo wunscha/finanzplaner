@@ -15,6 +15,12 @@ class Datastoremanger {
   }
 
   create(objectNew, keyModel) {
+    // hole Id
+    // TODO: generiereId() bei Kontstruktoren von Models ist obsolet --> entfernen
+    let ids = this.datastore[keyModel].map(obj => obj.id);
+    let idMax = Math.max(...ids);
+    objectNew.id = idMax + 1;
+
     if (this.read(objectNew.id, keyModel)) {
       console.warn(`Objekt ${keyModel} mit Id ${objectNew.id} ist bereits vorhanden und wird überschrieben`);
       this.replace(objectNew, keyModel);
