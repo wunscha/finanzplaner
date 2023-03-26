@@ -63,6 +63,32 @@
       }"
     >
       <q-list>
+        <div class="row q-gutter-md q-pa-sm">
+          <!-- Style speichern -->
+          <q-btn
+            flat
+            round
+            icon="save"
+            :style="{
+              color: style.colors.accentText,
+              backgroundColor: style.colors.accent,
+            }"
+            @click="speichereStyle"
+          />
+          <!-- Style Laden -->
+          <input type="file" style="display: none;" v-on:change="ladeStyle" id="ipt-file-style"/>
+          <q-btn
+            flat
+            round
+            icon="restore"
+            :style="{
+              color: style.colors.accentText,
+              backgroundColor: style.colors.accent,
+            }"
+            @click="beiClickLadeStyle"
+          />
+        </div>
+
         <!-- Farben-->
         <q-separator />
 
@@ -453,7 +479,33 @@
       beiClickLadeDatastore() {
         let iptFileDatastore = document.querySelector('#ipt-file-datastore');
         iptFileDatastore.click();
-      }
+      },
+      // Style
+      speichereStyle() {
+        // siehe https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
+        let hrefString = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(style));
+        let anchorNode = document.createElement('a');
+        anchorNode.setAttribute('href', hrefString);
+        anchorNode.setAttribute('download', 'speicherstand_style_finanzplaner.json');
+        anchorNode.style.display = 'none';
+        document.body.appendChild(anchorNode);
+        anchorNode.click();
+        anchorNode.remove();
+        this.$emit('submit');
+      },
+      ladeStyle(evt) {
+        let datei = evt.target.files[0];
+        let filereader = new FileReader();
+        filereader.onload = evt => {
+          let dateiGeladen = JSON.parse(evt.target.result);
+          Object.assign(this.style,dateiGeladen);
+        }
+        filereader.readAsText(datei);
+      },
+      beiClickLadeStyle() {
+        let iptFileStyle = document.querySelector('#ipt-file-style');
+        iptFileStyle.click();
+      },
     }
   });
 </script>
